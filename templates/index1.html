@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Genre.aI</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">		<noscript><link rel="stylesheet" href="{{ url_for('static', filename='css/noscript.css')}}" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<span class="logo"><img src="/static/images/logo.svg" alt="" /></span>
+						<h1>Genre.aI</h1>
+						<p>I can tell you the genre of the movie just by looking at its poster.<br />
+						Trained by <a href="https://github.com/LoboSolitario/">Shouvik Ghosh</a> 
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#intro" class="active">Introduction</a></li>
+							<li><a href="#first">Start predicting</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Introduction -->
+							<section id="intro" class="main">
+								<div class="spotlight">
+									<div class="content">
+										<header class="major">
+											<h2>Introduction</h2>
+										</header>
+										<p>
+											This model has been trained to predict the genre of the movie from the movie poster. It has been trained
+											on a relatively medium dataset of 27,000 images which was found on <a href="https://www.kaggle.com/neha1703/movie-genre-from-its-poster/version/3">kaggle</a>
+										</p>
+										<ul class="actions">
+											<li><a href="generic.html" class="button">Learn More</a></li>
+										</ul>
+									</div>
+									<span class="image"><img src="/static/images/comb.jpeg" style="height: 400px; width:400px" alt="" /></span>
+								</div>
+							</section>
+
+						<!-- First Section -->
+							<section id="first" class="main special">
+								<header class="major">
+									<h2>Start predicting</h2>
+								</header>
+									
+								<div class="spotlight">
+									<span class="image"><img id="up_image" style="width:400px;height:400px;"  src="{{imagesource}}" altSrc="/static/images/comb.jpeg" onerror="this.src = $(this).attr('altSrc')" /></span>
+									<div class="content">
+										<p>
+											<form action="" method=post enctype=multipart/form-data>
+												<input type=file name=file onchange="readURL(this);">
+												<input class="primary" type=submit value=Upload>
+											</form>
+										</p>
+									</div>
+								</div>
+								<br><br>
+								{% if prediction %}
+								<div class="table-wrapper">
+									<table class="alt" style="width:40%; margin:0px auto;">
+										<thead>
+											<tr>
+												<th>Predicted Genre</th>
+												<th>Probability</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for gen in prediction %}
+											<tr>
+												<td>{{gen[0]}}</td>
+												<td>{{gen[1]}}</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+
+								{% endif %}
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<section>
+							<h2>About me.</h2>
+							<p>Currently, I am a Junior at SRMIST pursuing Computer Science Engineering with an ardent interest in the field of 
+							deeplearning and computer vision. Want to talk about an idea or a project you've done or want to do or about anything too
+							 geeky for the rest of the world, hit me up. \m/</p>
+							
+						</section>
+						<section>
+							<h2>Connect with me.</h2>
+							<dl class="alt">
+								<dt>Email</dt>
+								<dd><a href="#">01.shouvik@gmail.com</a></dd>
+							</dl>
+							<ul class="icons">
+								<li><a href="" class="fab fa-twitter fa-2x"> 	</a></li>
+								<li><a href="#" class="fab fa-facebook fa-2x">	</a></li>
+								<li><a href="#" class="fab fa-github fa-2x">	</a></li>
+								<li><a href="#" class="fab fa-linkedin fa-2x">	</a></li>
+							</ul>
+						</section>
+						
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{{ url_for('static', filename='js/jquery.min.js')}}"></script>
+			<script src="{{ url_for('static', filename='js/jquery.scrollex.min.js')}}"></script>
+			<script src="{{ url_for('static', filename='js/jquery.scrolly.min.js')}}"></script>
+			<script src="{{ url_for('static', filename='js/browser.min.js')}}"></script>
+			<script src="{{ url_for('static', filename='js/breakpoints.min.js')}}"></script>
+			<script src="{{ url_for('static', filename='js/util.js')}}"></script>
+			<script src="{{ url_for('static', filename='js/main.js')}}"></script>
+			<script>
+				function readURL(input) {
+					if (input.files && input.files[0]) {
+						var reader = new FileReader();
+
+						reader.onload = function (e) {
+							$('#up_image	')
+								.attr('src', e.target.result)
+								.width(400)
+								.height(400);
+						};
+
+						reader.readAsDataURL(input.files[0]);
+					}
+				}
+
+				{% if done == "true" %}
+					window.location = '#first'
+				{% endif %}
+
+			</script>
+
+	</body>
+</html>
